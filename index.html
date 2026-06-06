@@ -4,7 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Mon Atelier PDF</title>
+  <title>PDF Pro</title>
+  <meta name="theme-color" content="#020617" />
+  <link rel="manifest" href="./app.webmanifest" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
 
   <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
@@ -39,6 +43,14 @@
       text-align: center;
       background: #020617;
       border-bottom: 1px solid var(--border);
+    }
+
+    header img {
+      width: 82px;
+      height: 82px;
+      border-radius: 22px;
+      margin-bottom: 10px;
+      box-shadow: 0 8px 22px rgba(56, 189, 248, 0.25);
     }
 
     header h1 {
@@ -134,13 +146,6 @@
       color: #052e16;
     }
 
-    .small-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
     .pdf-item {
       background: var(--card2);
       border: 1px solid var(--border);
@@ -214,7 +219,8 @@
 
 <body>
   <header>
-    <h1>Mon Atelier PDF</h1>
+    <img src="./icon.svg" alt="Icône PDF Pro" />
+    <h1>PDF Pro</h1>
     <p>Créer, fusionner et télécharger un dossier PDF complet</p>
   </header>
 
@@ -355,7 +361,6 @@
 
     function movePdf(index, direction) {
       const newIndex = index + direction;
-
       if (newIndex < 0 || newIndex >= pdfFiles.length) return;
 
       const temp = pdfFiles[index];
