@@ -14,21 +14,18 @@
 
   <style>
     :root {
-      --bg: #0f172a;
       --card: #111827;
       --card2: #1f2937;
       --text: #f9fafb;
       --muted: #9ca3af;
       --primary: #38bdf8;
-      --primary2: #0284c7;
       --danger: #ef4444;
       --success: #22c55e;
       --border: #334155;
+      --dark: #020617;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -41,7 +38,7 @@
     header {
       padding: 22px 16px;
       text-align: center;
-      background: #020617;
+      background: var(--dark);
       border-bottom: 1px solid var(--border);
     }
 
@@ -53,22 +50,10 @@
       box-shadow: 0 8px 22px rgba(56, 189, 248, 0.25);
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-    }
+    h1 { margin: 0; font-size: 28px; }
+    header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
 
-    header p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    main {
-      padding: 16px;
-      max-width: 780px;
-      margin: auto;
-    }
+    main { padding: 16px; max-width: 820px; margin: auto; }
 
     .card {
       background: var(--card);
@@ -79,10 +64,7 @@
       box-shadow: 0 8px 22px rgba(0,0,0,0.25);
     }
 
-    h2 {
-      margin-top: 0;
-      font-size: 19px;
-    }
+    h2 { margin-top: 0; font-size: 19px; }
 
     label {
       display: block;
@@ -92,11 +74,10 @@
       font-size: 14px;
     }
 
-    input,
-    textarea {
+    input, textarea, select {
       width: 100%;
       border: 1px solid var(--border);
-      background: #020617;
+      background: var(--dark);
       color: var(--text);
       border-radius: 14px;
       padding: 14px;
@@ -104,15 +85,8 @@
       outline: none;
     }
 
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-
-    input[type="file"] {
-      background: var(--card2);
-      padding: 16px;
-    }
+    textarea { min-height: 100px; resize: vertical; }
+    input[type="file"] { background: var(--card2); padding: 16px; }
 
     button {
       width: 100%;
@@ -127,26 +101,12 @@
       cursor: pointer;
     }
 
-    button:active {
-      transform: scale(0.98);
-    }
+    button:active { transform: scale(0.98); }
+    .secondary { background: #e5e7eb; color: #111827; }
+    .danger { background: var(--danger); color: white; }
+    .success { background: var(--success); color: #052e16; }
 
-    .secondary {
-      background: #e5e7eb;
-      color: #111827;
-    }
-
-    .danger {
-      background: var(--danger);
-      color: white;
-    }
-
-    .success {
-      background: var(--success);
-      color: #052e16;
-    }
-
-    .pdf-item {
+    .item {
       background: var(--card2);
       border: 1px solid var(--border);
       border-radius: 14px;
@@ -154,35 +114,21 @@
       margin-top: 10px;
     }
 
-    .pdf-title {
-      font-weight: bold;
-      word-break: break-word;
-      margin-bottom: 6px;
-    }
+    .item-title { font-weight: bold; word-break: break-word; margin-bottom: 6px; }
+    .item-info { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
 
-    .pdf-info {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .pdf-actions {
+    .item-actions {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 6px;
     }
 
-    .pdf-actions button {
-      margin: 0;
-      padding: 10px;
-      font-size: 13px;
-      border-radius: 10px;
-    }
+    .item-actions button { margin: 0; padding: 10px; font-size: 13px; border-radius: 10px; }
 
     .status {
       padding: 12px;
       border-radius: 12px;
-      background: #020617;
+      background: var(--dark);
       color: var(--muted);
       border: 1px solid var(--border);
       font-size: 14px;
@@ -202,18 +148,9 @@
       margin-top: 12px;
     }
 
-    .warning {
-      color: #fbbf24;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      padding: 20px;
-    }
+    .warning { color: #fbbf24; font-size: 14px; line-height: 1.45; }
+    .mini { color: var(--muted); font-size: 13px; line-height: 1.45; }
+    footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px; }
   </style>
 </head>
 
@@ -221,7 +158,7 @@
   <header>
     <img src="./icon.svg" alt="Icône PDF Pro" />
     <h1>PDF Pro</h1>
-    <p>Créer, fusionner et télécharger un dossier PDF complet</p>
+    <p>Créer, fusionner et convertir des images en PDF</p>
   </header>
 
   <main>
@@ -235,51 +172,44 @@
       <input id="personName" type="text" placeholder="Exemple : Cheikh Mboup" />
 
       <label for="dossierDescription">Description courte</label>
-      <textarea id="dossierDescription" placeholder="Exemple : Dossier complet avec facture, attestation, justificatif et courrier."></textarea>
+      <textarea id="dossierDescription" placeholder="Exemple : Factures, justificatifs, photos et documents importants."></textarea>
 
       <label for="outputName">Nom du PDF final</label>
       <input id="outputName" type="text" placeholder="Exemple : dossier-complet.pdf" />
     </section>
 
     <section class="card">
-      <h2>2. Ajouter des PDF</h2>
-
+      <h2>2. Ajouter des PDF à fusionner</h2>
       <input id="pdfInput" type="file" accept="application/pdf" multiple />
-
       <button onclick="addSelectedPdfs()">Ajouter les PDF</button>
-
-      <p class="warning">
-        Conseil : ajoute tes PDF dans l’ordre souhaité. Tu peux ensuite les monter, descendre ou supprimer.
-      </p>
+      <div id="pdfList" class="status">Aucun PDF ajouté.</div>
     </section>
 
     <section class="card">
-      <h2>3. Liste des PDF</h2>
-      <div id="pdfList" class="status">Aucun PDF ajouté pour le moment.</div>
+      <h2>3. Transformer des images en PDF</h2>
+      <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp" multiple />
+      <button onclick="addSelectedImages()">Ajouter les images</button>
+      <button class="secondary" onclick="generateImagesOnlyPdf()">Télécharger seulement les images en PDF</button>
+      <div id="imageList" class="status">Aucune image ajoutée.</div>
+      <p class="warning">Les images ajoutées ici seront aussi incluses dans le PDF complet.</p>
     </section>
 
     <section class="card">
       <h2>4. Générer le dossier complet</h2>
-
       <button class="success" onclick="generateFinalPdf()">Créer le PDF complet</button>
       <button class="danger" onclick="resetApp()">Tout effacer</button>
-
       <div id="result"></div>
-
-      <div id="status" class="status" style="margin-top: 12px;">
-        Prêt.
-      </div>
+      <div id="status" class="status" style="margin-top: 12px;">Prêt.</div>
+      <p class="mini">Tous les fichiers restent sur ton téléphone. Rien n’est envoyé sur internet.</p>
     </section>
   </main>
 
-  <footer>
-    Application locale - aucun fichier n’est envoyé sur internet
-  </footer>
+  <footer>PDF Pro - application locale</footer>
 
   <script>
     const { PDFDocument, StandardFonts, rgb } = PDFLib;
-
     let pdfFiles = [];
+    let imageFiles = [];
 
     function setStatus(message) {
       document.getElementById("status").textContent = message;
@@ -292,185 +222,123 @@
     }
 
     function cleanFileName(name) {
-      return name
-        .trim()
-        .replaceAll(" ", "-")
-        .replace(/[^\w\-\.]/g, "")
-        .toLowerCase();
+      return name.trim().replaceAll(" ", "-").replace(/[^\w\-\.]/g, "").toLowerCase();
     }
 
     async function addSelectedPdfs() {
       const input = document.getElementById("pdfInput");
       const files = Array.from(input.files);
-
-      if (files.length === 0) {
-        setStatus("Sélectionne au moins un PDF.");
-        return;
-      }
+      if (files.length === 0) return setStatus("Sélectionne au moins un PDF.");
 
       for (const file of files) {
-        if (file.type !== "application/pdf") {
-          setStatus("Un fichier non PDF a été ignoré : " + file.name);
-          continue;
-        }
-
-        const arrayBuffer = await file.arrayBuffer();
-
-        pdfFiles.push({
-          name: file.name,
-          size: file.size,
-          data: arrayBuffer
-        });
+        if (file.type !== "application/pdf") continue;
+        pdfFiles.push({ name: file.name, size: file.size, data: await file.arrayBuffer() });
       }
 
       input.value = "";
       renderPdfList();
-      setStatus(files.length + " fichier(s) ajouté(s).");
+      setStatus(files.length + " PDF ajouté(s).");
+    }
+
+    async function addSelectedImages() {
+      const input = document.getElementById("imageInput");
+      const files = Array.from(input.files);
+      if (files.length === 0) return setStatus("Sélectionne au moins une image.");
+
+      for (const file of files) {
+        const ok = ["image/jpeg", "image/png", "image/webp"].includes(file.type);
+        if (!ok) continue;
+        imageFiles.push({ name: file.name, size: file.size, type: file.type, data: await file.arrayBuffer() });
+      }
+
+      input.value = "";
+      renderImageList();
+      setStatus(files.length + " image(s) ajoutée(s).");
     }
 
     function renderPdfList() {
-      const list = document.getElementById("pdfList");
+      renderList("pdfList", pdfFiles, movePdf, removePdf, "Aucun PDF ajouté.");
+    }
 
-      if (pdfFiles.length === 0) {
+    function renderImageList() {
+      renderList("imageList", imageFiles, moveImage, removeImage, "Aucune image ajoutée.");
+    }
+
+    function renderList(elementId, files, moveFn, removeFn, emptyText) {
+      const list = document.getElementById(elementId);
+      if (files.length === 0) {
         list.className = "status";
-        list.innerHTML = "Aucun PDF ajouté pour le moment.";
+        list.innerHTML = emptyText;
         return;
       }
 
       list.className = "";
       list.innerHTML = "";
 
-      pdfFiles.forEach((file, index) => {
+      files.forEach((file, index) => {
         const item = document.createElement("div");
-        item.className = "pdf-item";
-
+        item.className = "item";
         item.innerHTML = `
-          <div class="pdf-title">${index + 1}. ${file.name}</div>
-          <div class="pdf-info">${formatSize(file.size)}</div>
-
-          <div class="pdf-actions">
-            <button class="secondary" onclick="movePdf(${index}, -1)">Monter</button>
-            <button class="secondary" onclick="movePdf(${index}, 1)">Descendre</button>
-            <button class="danger" onclick="removePdf(${index})">Supprimer</button>
+          <div class="item-title">${index + 1}. ${file.name}</div>
+          <div class="item-info">${formatSize(file.size)}</div>
+          <div class="item-actions">
+            <button class="secondary">Monter</button>
+            <button class="secondary">Descendre</button>
+            <button class="danger">Supprimer</button>
           </div>
         `;
-
+        const buttons = item.querySelectorAll("button");
+        buttons[0].onclick = () => moveFn(index, -1);
+        buttons[1].onclick = () => moveFn(index, 1);
+        buttons[2].onclick = () => removeFn(index);
         list.appendChild(item);
       });
     }
 
-    function movePdf(index, direction) {
+    function movePdf(index, direction) { moveItem(pdfFiles, index, direction); renderPdfList(); }
+    function moveImage(index, direction) { moveItem(imageFiles, index, direction); renderImageList(); }
+
+    function moveItem(array, index, direction) {
       const newIndex = index + direction;
-      if (newIndex < 0 || newIndex >= pdfFiles.length) return;
-
-      const temp = pdfFiles[index];
-      pdfFiles[index] = pdfFiles[newIndex];
-      pdfFiles[newIndex] = temp;
-
-      renderPdfList();
+      if (newIndex < 0 || newIndex >= array.length) return;
+      const temp = array[index];
+      array[index] = array[newIndex];
+      array[newIndex] = temp;
     }
 
-    function removePdf(index) {
-      pdfFiles.splice(index, 1);
-      renderPdfList();
-      setStatus("PDF supprimé.");
-    }
+    function removePdf(index) { pdfFiles.splice(index, 1); renderPdfList(); setStatus("PDF supprimé."); }
+    function removeImage(index) { imageFiles.splice(index, 1); renderImageList(); setStatus("Image supprimée."); }
 
     async function createCoverPage(finalPdf) {
       const title = document.getElementById("dossierTitle").value.trim() || "Dossier PDF complet";
       const person = document.getElementById("personName").value.trim() || "Non renseigné";
       const description = document.getElementById("dossierDescription").value.trim() || "Aucune description.";
-
       const page = finalPdf.addPage([595.28, 841.89]);
       const fontBold = await finalPdf.embedFont(StandardFonts.HelveticaBold);
       const fontRegular = await finalPdf.embedFont(StandardFonts.Helvetica);
 
-      page.drawRectangle({
-        x: 0,
-        y: 0,
-        width: 595.28,
-        height: 841.89,
-        color: rgb(0.06, 0.09, 0.16)
-      });
-
-      page.drawText("DOSSIER PDF COMPLET", {
-        x: 55,
-        y: 740,
-        size: 24,
-        font: fontBold,
-        color: rgb(0.22, 0.74, 0.97)
-      });
-
-      page.drawText(title, {
-        x: 55,
-        y: 680,
-        size: 28,
-        font: fontBold,
-        color: rgb(1, 1, 1)
-      });
-
-      page.drawText("Nom / référence :", {
-        x: 55,
-        y: 620,
-        size: 13,
-        font: fontBold,
-        color: rgb(0.75, 0.8, 0.9)
-      });
-
-      page.drawText(person, {
-        x: 55,
-        y: 595,
-        size: 16,
-        font: fontRegular,
-        color: rgb(1, 1, 1)
-      });
-
-      page.drawText("Description :", {
-        x: 55,
-        y: 545,
-        size: 13,
-        font: fontBold,
-        color: rgb(0.75, 0.8, 0.9)
-      });
+      page.drawRectangle({ x: 0, y: 0, width: 595.28, height: 841.89, color: rgb(0.06, 0.09, 0.16) });
+      page.drawText("DOSSIER PDF COMPLET", { x: 55, y: 740, size: 24, font: fontBold, color: rgb(0.22, 0.74, 0.97) });
+      page.drawText(title, { x: 55, y: 680, size: 28, font: fontBold, color: rgb(1, 1, 1) });
+      page.drawText("Nom / référence :", { x: 55, y: 620, size: 13, font: fontBold, color: rgb(0.75, 0.8, 0.9) });
+      page.drawText(person, { x: 55, y: 595, size: 16, font: fontRegular, color: rgb(1, 1, 1) });
+      page.drawText("Description :", { x: 55, y: 545, size: 13, font: fontBold, color: rgb(0.75, 0.8, 0.9) });
 
       const lines = splitText(description, 70);
-
       let y = 520;
       lines.slice(0, 10).forEach(line => {
-        page.drawText(line, {
-          x: 55,
-          y,
-          size: 13,
-          font: fontRegular,
-          color: rgb(1, 1, 1)
-        });
+        page.drawText(line, { x: 55, y, size: 13, font: fontRegular, color: rgb(1, 1, 1) });
         y -= 22;
       });
 
-      const today = new Date().toLocaleDateString("fr-FR");
-
-      page.drawText("Créé le : " + today, {
-        x: 55,
-        y: 120,
-        size: 12,
-        font: fontRegular,
-        color: rgb(0.75, 0.8, 0.9)
-      });
-
-      page.drawText("Nombre de PDF ajoutés : " + pdfFiles.length, {
-        x: 55,
-        y: 95,
-        size: 12,
-        font: fontRegular,
-        color: rgb(0.75, 0.8, 0.9)
-      });
+      page.drawText("PDF ajoutés : " + pdfFiles.length, { x: 55, y: 120, size: 12, font: fontRegular, color: rgb(0.75, 0.8, 0.9) });
+      page.drawText("Images ajoutées : " + imageFiles.length, { x: 55, y: 95, size: 12, font: fontRegular, color: rgb(0.75, 0.8, 0.9) });
     }
 
     function splitText(text, maxLength) {
       const words = text.split(" ");
       const lines = [];
       let currentLine = "";
-
       for (const word of words) {
         if ((currentLine + " " + word).trim().length > maxLength) {
           lines.push(currentLine.trim());
@@ -479,80 +347,125 @@
           currentLine += " " + word;
         }
       }
-
-      if (currentLine.trim()) {
-        lines.push(currentLine.trim());
-      }
-
+      if (currentLine.trim()) lines.push(currentLine.trim());
       return lines;
+    }
+
+    async function addImagesToPdf(finalPdf) {
+      for (const file of imageFiles) {
+        setStatus("Ajout image : " + file.name);
+        let embeddedImage;
+        let imageBytes = file.data;
+
+        if (file.type === "image/png") {
+          embeddedImage = await finalPdf.embedPng(imageBytes);
+        } else if (file.type === "image/jpeg") {
+          embeddedImage = await finalPdf.embedJpg(imageBytes);
+        } else if (file.type === "image/webp") {
+          imageBytes = await convertWebpToPng(file.data);
+          embeddedImage = await finalPdf.embedPng(imageBytes);
+        }
+
+        const page = finalPdf.addPage([595.28, 841.89]);
+        const margin = 30;
+        const maxWidth = 595.28 - margin * 2;
+        const maxHeight = 841.89 - margin * 2;
+        const scale = Math.min(maxWidth / embeddedImage.width, maxHeight / embeddedImage.height);
+        const width = embeddedImage.width * scale;
+        const height = embeddedImage.height * scale;
+        const x = (595.28 - width) / 2;
+        const y = (841.89 - height) / 2;
+        page.drawImage(embeddedImage, { x, y, width, height });
+      }
+    }
+
+    function convertWebpToPng(arrayBuffer) {
+      return new Promise((resolve, reject) => {
+        const blob = new Blob([arrayBuffer], { type: "image/webp" });
+        const url = URL.createObjectURL(blob);
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(async blob => {
+            URL.revokeObjectURL(url);
+            resolve(await blob.arrayBuffer());
+          }, "image/png");
+        };
+        img.onerror = reject;
+        img.src = url;
+      });
+    }
+
+    async function generateImagesOnlyPdf() {
+      if (imageFiles.length === 0) return setStatus("Ajoute au moins une image.");
+      const finalPdf = await PDFDocument.create();
+      await addImagesToPdf(finalPdf);
+      const bytes = await finalPdf.save();
+      createDownload(bytes, "images-en-pdf.pdf");
+      setStatus("PDF d’images prêt.");
     }
 
     async function generateFinalPdf() {
       try {
         document.getElementById("result").innerHTML = "";
-
-        if (pdfFiles.length === 0) {
-          setStatus("Ajoute au moins un PDF avant de générer le dossier complet.");
-          return;
-        }
+        if (pdfFiles.length === 0 && imageFiles.length === 0) return setStatus("Ajoute au moins un PDF ou une image.");
 
         setStatus("Création du PDF complet en cours...");
-
         const finalPdf = await PDFDocument.create();
-
         await createCoverPage(finalPdf);
 
         for (const file of pdfFiles) {
-          setStatus("Fusion en cours : " + file.name);
-
+          setStatus("Fusion PDF : " + file.name);
           const sourcePdf = await PDFDocument.load(file.data);
           const copiedPages = await finalPdf.copyPages(sourcePdf, sourcePdf.getPageIndices());
-
-          copiedPages.forEach(page => {
-            finalPdf.addPage(page);
-          });
+          copiedPages.forEach(page => finalPdf.addPage(page));
         }
 
-        const finalBytes = await finalPdf.save();
+        await addImagesToPdf(finalPdf);
+        const bytes = await finalPdf.save();
 
         let outputName = document.getElementById("outputName").value.trim();
-
         if (!outputName) {
           const title = document.getElementById("dossierTitle").value.trim() || "dossier-complet";
           outputName = cleanFileName(title) + ".pdf";
         }
+        if (!outputName.endsWith(".pdf")) outputName += ".pdf";
 
-        if (!outputName.endsWith(".pdf")) {
-          outputName += ".pdf";
-        }
-
-        const blob = new Blob([finalBytes], { type: "application/pdf" });
-        const url = URL.createObjectURL(blob);
-
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = outputName;
-        link.className = "download-link";
-        link.textContent = "Télécharger " + outputName;
-
-        document.getElementById("result").appendChild(link);
-
-        setStatus("PDF complet prêt. Taille : " + formatSize(blob.size));
+        createDownload(bytes, outputName);
+        setStatus("PDF complet prêt.");
       } catch (error) {
         console.error(error);
-        setStatus("Erreur : impossible de créer le PDF. Certains PDF peuvent être protégés ou abîmés.");
+        setStatus("Erreur : PDF ou image incompatible. Essaie avec JPG ou PNG si WebP bloque.");
       }
+    }
+
+    function createDownload(bytes, fileName) {
+      const blob = new Blob([bytes], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      link.className = "download-link";
+      link.textContent = "Télécharger " + fileName + " - " + formatSize(blob.size);
+      document.getElementById("result").appendChild(link);
     }
 
     function resetApp() {
       pdfFiles = [];
+      imageFiles = [];
       document.getElementById("dossierTitle").value = "";
       document.getElementById("personName").value = "";
       document.getElementById("dossierDescription").value = "";
       document.getElementById("outputName").value = "";
       document.getElementById("pdfInput").value = "";
+      document.getElementById("imageInput").value = "";
       document.getElementById("result").innerHTML = "";
       renderPdfList();
+      renderImageList();
       setStatus("Tout a été effacé.");
     }
   </script>
