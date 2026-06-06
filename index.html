@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Mon Atelier PDF</title>
+
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --card2: #1f2937;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --primary: #38bdf8;
+      --primary2: #0284c7;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #020617, #0f172a);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 22px 16px;
+      text-align: center;
+      background: #020617;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    main {
+      padding: 16px;
+      max-width: 780px;
+      margin: auto;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 19px;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    input[type="file"] {
+      background: var(--card2);
+      padding: 16px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 15px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 12px;
+      color: #00111a;
+      background: var(--primary);
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .success {
+      background: var(--success);
+      color: #052e16;
+    }
+
+    .small-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .pdf-item {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .pdf-title {
+      font-weight: bold;
+      word-break: break-word;
+      margin-bottom: 6px;
+    }
+
+    .pdf-info {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .pdf-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+    }
+
+    .pdf-actions button {
+      margin: 0;
+      padding: 10px;
+      font-size: 13px;
+      border-radius: 10px;
+    }
+
+    .status {
+      padding: 12px;
+      border-radius: 12px;
+      background: #020617;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .download-link {
+      display: block;
+      text-align: center;
+      background: var(--success);
+      color: #052e16;
+      padding: 15px;
+      border-radius: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      margin-top: 12px;
+    }
+
+    .warning {
+      color: #fbbf24;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Mon Atelier PDF</h1>
+    <p>Créer, fusionner et télécharger un dossier PDF complet</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>1. Informations du dossier</h2>
+
+      <label for="dossierTitle">Titre du dossier</label>
+      <input id="dossierTitle" type="text" placeholder="Exemple : Dossier assurance voiture" />
+
+      <label for="personName">Nom ou référence</label>
+      <input id="personName" type="text" placeholder="Exemple : Cheikh Mboup" />
+
+      <label for="dossierDescription">Description courte</label>
+      <textarea id="dossierDescription" placeholder="Exemple : Dossier complet avec facture, attestation, justificatif et courrier."></textarea>
+
+      <label for="outputName">Nom du PDF final</label>
+      <input id="outputName" type="text" placeholder="Exemple : dossier-complet.pdf" />
+    </section>
+
+    <section class="card">
+      <h2>2. Ajouter des PDF</h2>
+
+      <input id="pdfInput" type="file" accept="application/pdf" multiple />
+
+      <button onclick="addSelectedPdfs()">Ajouter les PDF</button>
+
+      <p class="warning">
+        Conseil : ajoute tes PDF dans l’ordre souhaité. Tu peux ensuite les monter, descendre ou supprimer.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>3. Liste des PDF</h2>
+      <div id="pdfList" class="status">Aucun PDF ajouté pour le moment.</div>
+    </section>
+
+    <section class="card">
+      <h2>4. Générer le dossier complet</h2>
+
+      <button class="success" onclick="generateFinalPdf()">Créer le PDF complet</button>
+      <button class="danger" onclick="resetApp()">Tout effacer</button>
+
+      <div id="result"></div>
+
+      <div id="status" class="status" style="margin-top: 12px;">
+        Prêt.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Application locale - aucun fichier n’est envoyé sur internet
+  </footer>
+
+  <script>
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+
+    let pdfFiles = [];
+
+    function setStatus(message) {
+      document.getElementById("status").textContent = message;
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + " octets";
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " Ko";
+      return (bytes / (1024 * 1024)).toFixed(2) + " Mo";
+    }
+
+    function cleanFileName(name) {
+      return name
+        .trim()
+        .replaceAll(" ", "-")
+        .replace(/[^\w\-\.]/g, "")
+        .toLowerCase();
+    }
+
+    async function addSelectedPdfs() {
+      const input = document.getElementById("pdfInput");
+      const files = Array.from(input.files);
+
+      if (files.length === 0) {
+        setStatus("Sélectionne au moins un PDF.");
+        return;
+      }
+
+      for (const file of files) {
+        if (file.type !== "application/pdf") {
+          setStatus("Un fichier non PDF a été ignoré : " + file.name);
+          continue;
+        }
+
+        const arrayBuffer = await file.arrayBuffer();
+
+        pdfFiles.push({
+          name: file.name,
+          size: file.size,
+          data: arrayBuffer
+        });
+      }
+
+      input.value = "";
+      renderPdfList();
+      setStatus(files.length + " fichier(s) ajouté(s).");
+    }
+
+    function renderPdfList() {
+      const list = document.getElementById("pdfList");
+
+      if (pdfFiles.length === 0) {
+        list.className = "status";
+        list.innerHTML = "Aucun PDF ajouté pour le moment.";
+        return;
+      }
+
+      list.className = "";
+      list.innerHTML = "";
+
+      pdfFiles.forEach((file, index) => {
+        const item = document.createElement("div");
+        item.className = "pdf-item";
+
+        item.innerHTML = `
+          <div class="pdf-title">${index + 1}. ${file.name}</div>
+          <div class="pdf-info">${formatSize(file.size)}</div>
+
+          <div class="pdf-actions">
+            <button class="secondary" onclick="movePdf(${index}, -1)">Monter</button>
+            <button class="secondary" onclick="movePdf(${index}, 1)">Descendre</button>
+            <button class="danger" onclick="removePdf(${index})">Supprimer</button>
+          </div>
+        `;
+
+        list.appendChild(item);
+      });
+    }
+
+    function movePdf(index, direction) {
+      const newIndex = index + direction;
+
+      if (newIndex < 0 || newIndex >= pdfFiles.length) return;
+
+      const temp = pdfFiles[index];
+      pdfFiles[index] = pdfFiles[newIndex];
+      pdfFiles[newIndex] = temp;
+
+      renderPdfList();
+    }
+
+    function removePdf(index) {
+      pdfFiles.splice(index, 1);
+      renderPdfList();
+      setStatus("PDF supprimé.");
+    }
+
+    async function createCoverPage(finalPdf) {
+      const title = document.getElementById("dossierTitle").value.trim() || "Dossier PDF complet";
+      const person = document.getElementById("personName").value.trim() || "Non renseigné";
+      const description = document.getElementById("dossierDescription").value.trim() || "Aucune description.";
+
+      const page = finalPdf.addPage([595.28, 841.89]);
+      const fontBold = await finalPdf.embedFont(StandardFonts.HelveticaBold);
+      const fontRegular = await finalPdf.embedFont(StandardFonts.Helvetica);
+
+      page.drawRectangle({
+        x: 0,
+        y: 0,
+        width: 595.28,
+        height: 841.89,
+        color: rgb(0.06, 0.09, 0.16)
+      });
+
+      page.drawText("DOSSIER PDF COMPLET", {
+        x: 55,
+        y: 740,
+        size: 24,
+        font: fontBold,
+        color: rgb(0.22, 0.74, 0.97)
+      });
+
+      page.drawText(title, {
+        x: 55,
+        y: 680,
+        size: 28,
+        font: fontBold,
+        color: rgb(1, 1, 1)
+      });
+
+      page.drawText("Nom / référence :", {
+        x: 55,
+        y: 620,
+        size: 13,
+        font: fontBold,
+        color: rgb(0.75, 0.8, 0.9)
+      });
+
+      page.drawText(person, {
+        x: 55,
+        y: 595,
+        size: 16,
+        font: fontRegular,
+        color: rgb(1, 1, 1)
+      });
+
+      page.drawText("Description :", {
+        x: 55,
+        y: 545,
+        size: 13,
+        font: fontBold,
+        color: rgb(0.75, 0.8, 0.9)
+      });
+
+      const lines = splitText(description, 70);
+
+      let y = 520;
+      lines.slice(0, 10).forEach(line => {
+        page.drawText(line, {
+          x: 55,
+          y,
+          size: 13,
+          font: fontRegular,
+          color: rgb(1, 1, 1)
+        });
+        y -= 22;
+      });
+
+      const today = new Date().toLocaleDateString("fr-FR");
+
+      page.drawText("Créé le : " + today, {
+        x: 55,
+        y: 120,
+        size: 12,
+        font: fontRegular,
+        color: rgb(0.75, 0.8, 0.9)
+      });
+
+      page.drawText("Nombre de PDF ajoutés : " + pdfFiles.length, {
+        x: 55,
+        y: 95,
+        size: 12,
+        font: fontRegular,
+        color: rgb(0.75, 0.8, 0.9)
+      });
+    }
+
+    function splitText(text, maxLength) {
+      const words = text.split(" ");
+      const lines = [];
+      let currentLine = "";
+
+      for (const word of words) {
+        if ((currentLine + " " + word).trim().length > maxLength) {
+          lines.push(currentLine.trim());
+          currentLine = word;
+        } else {
+          currentLine += " " + word;
+        }
+      }
+
+      if (currentLine.trim()) {
+        lines.push(currentLine.trim());
+      }
+
+      return lines;
+    }
+
+    async function generateFinalPdf() {
+      try {
+        document.getElementById("result").innerHTML = "";
+
+        if (pdfFiles.length === 0) {
+          setStatus("Ajoute au moins un PDF avant de générer le dossier complet.");
+          return;
+        }
+
+        setStatus("Création du PDF complet en cours...");
+
+        const finalPdf = await PDFDocument.create();
+
+        await createCoverPage(finalPdf);
+
+        for (const file of pdfFiles) {
+          setStatus("Fusion en cours : " + file.name);
+
+          const sourcePdf = await PDFDocument.load(file.data);
+          const copiedPages = await finalPdf.copyPages(sourcePdf, sourcePdf.getPageIndices());
+
+          copiedPages.forEach(page => {
+            finalPdf.addPage(page);
+          });
+        }
+
+        const finalBytes = await finalPdf.save();
+
+        let outputName = document.getElementById("outputName").value.trim();
+
+        if (!outputName) {
+          const title = document.getElementById("dossierTitle").value.trim() || "dossier-complet";
+          outputName = cleanFileName(title) + ".pdf";
+        }
+
+        if (!outputName.endsWith(".pdf")) {
+          outputName += ".pdf";
+        }
+
+        const blob = new Blob([finalBytes], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = outputName;
+        link.className = "download-link";
+        link.textContent = "Télécharger " + outputName;
+
+        document.getElementById("result").appendChild(link);
+
+        setStatus("PDF complet prêt. Taille : " + formatSize(blob.size));
+      } catch (error) {
+        console.error(error);
+        setStatus("Erreur : impossible de créer le PDF. Certains PDF peuvent être protégés ou abîmés.");
+      }
+    }
+
+    function resetApp() {
+      pdfFiles = [];
+      document.getElementById("dossierTitle").value = "";
+      document.getElementById("personName").value = "";
+      document.getElementById("dossierDescription").value = "";
+      document.getElementById("outputName").value = "";
+      document.getElementById("pdfInput").value = "";
+      document.getElementById("result").innerHTML = "";
+      renderPdfList();
+      setStatus("Tout a été effacé.");
+    }
+  </script>
+</body>
+</html>
